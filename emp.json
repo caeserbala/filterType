@@ -1,0 +1,3 @@
+[{ "id": 0,  "name": "bala" , "address" : "india" , "designation": "manager"},
+ { "id": 1, "name": "balaji" , "address" : "americaba" , "designation": "team leader"},
+ {  "id": 2,"name": "ram" , "address" : "malaysia" , "designation": "human resorce"}]
