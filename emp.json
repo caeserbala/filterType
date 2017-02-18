@@ -1,3 +1,1 @@
-[{ "id": 0,  "name": "bala" , "address" : "india" , "designation": "manager"},
- { "id": 1, "name": "balaji" , "address" : "americaba" , "designation": "team leader"},
- {  "id": 2,"name": "ram" , "address" : "malaysia" , "designation": "human resorce"}]
+data= '[{"name": "madhan" , "address" : "australia" , "designation": "developer"},{"name": "bala" , "address" : "india" , "designation": "manager"},{"name": "balaji" , "address" : "americaba" , "designation": "team leader"},{"name": "ram" , "address" : "malaysia" , "designation": "human resorce"},{"name": "sruthi" , "address" : "singapore" , "designation": "programmer"}]';

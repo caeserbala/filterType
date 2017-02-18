@@ -1,11 +1,19 @@
 {
-  "name": "typescript",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "typescript-examples",
+  "version": "0.0.1",
   "scripts": {
-  "start" : "node app.js" 
+    "tsc": "tsc",
+    "tsc:w": "tsc --watch",
+    "lite": "lite-server",
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" "
   },
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "systemjs": "0.20.5"
+  },
+  "devDependencies": {
+    "lite-server": "^2.2.2",
+    "typescript": "^2.1.5",
+    "typings":"^2.1.0",
+    "concurrently": "^3.1.0"
+  }
 }
