@@ -1,119 +1,116 @@
-let emp:any[] = [{ "id": 0,  "name": "bala" , "address" : "india" , "designation": "manager"},
-{ "id": 1, "name": "balaji" , "address" : "americaba" , "designation": "team leader"},
-{  "id": 2,"name": "ram" , "address" : "malaysia" , "designation": "human resorce"}];
-//let emp : any[] =config;
-//alert(emp);
-let newEmp=[];
+//to get value from External fril emp.json
+let employee : any[]  = JSON.parse(data);
 
+//Employee type interface same format as JSON data
 
-let container = document.getElementById('container');
-
-//To render table
-function display(emp) 
+interface EmpType
 {
- let table = document.createElement('table');
- let tr=[];
- for(let i=0;i<emp.length;i++)
+    name:string;
+    address:string;
+    designation: string;
+}
+
+//Main execution class implements interface EmpType
+class TypeSearch implements EmpType
+{
+    name: string;
+    address: string;
+    designation: string;
+    container = document.getElementById('container');
+    searchKey= document.getElementById('search');
+    constructor()
+    {    
+    this.wireEvents();
+        
+}
+
+//mapping search button from index.html to search function on app.ts
+
+wireEvents()
+{ if(this.searchKey)
+   this.searchKey.addEventListener('click',()=>this.search());
+}
+   
+//createEmp : used to create Table based up on them employee object passed over in function
+//function will return table based up on the employee data passed over in parameter
+    createEmp(employee)
+    { 
+        console.log("i am called");
+        let table = document.createElement('table');
+       table.setAttribute("id", "table");
+       table.className="table";
+       console.log(table);
+       for(let i=0;i<employee.length;i++)
  {
+    
+      let tr=[];
       tr[i] = document.createElement('tr');
-     let td1 = document.createElement('td');
-    let td2 = document.createElement('td');
+      let td1 = document.createElement('td');
+      let td2 = document.createElement('td');
       let td3 = document.createElement('td');
 
-    let name = document.createTextNode(emp[i].name);
-    let address = document.createTextNode(emp[i].address);
-    let designation = document.createTextNode(emp[i].designation);
+    let name = document.createTextNode(employee[i].name);
+    let address = document.createTextNode(employee[i].address);
+    let designation = document.createTextNode(employee[i].designation);
 
     td1.appendChild(name);
     td2.appendChild(address);
-     td3.appendChild(designation);
+    td3.appendChild(designation);
   
     
     tr[i].appendChild(td1);
     tr[i].appendChild(td2);
-      tr[i].appendChild(td3);
+    tr[i].appendChild(td3);
 
     table.appendChild(tr[i]);
 
  }
  return table;
 }
+//search() : to return new value which contains elements which are matched with regEx expression
 
-container.appendChild(display(emp));
-
-//To find particular data over in table
-function search()
-{   
-    let names=[];
-    let address=[];
-    let designation=[];
-    for(let i=0;i<emp.length;i++)
-    {
-        names [i]= emp[i].name;
-       // console.log(names[i]);
-          address [i]= emp[i].address;
-         // console.log(address[i]);
-             designation [i]= emp[i].designation;
-           //  console.log(designation[i]);
-    }
-
-    //finding matching regex 
-let findReg = function(match , a: string[]) {
+search()
+{  
+   this.deleteemployee();  // function called to delete exsiting table;
+    let newemployee=[];
+ 
+ //Getting value from input text box from index.html
+    let match= (<HTMLInputElement>document.getElementById('textVal')).value;
+   
+   
     let reg = new RegExp(match);
-
-    return a.filter(function(item){
-        return typeof item == 'string' && item.match(reg); 
-    });
-}
-let text= (<HTMLInputElement>document.getElementById('textVal')).value;
-console.log(text);
-
-//values results from regex
-let resultName = findReg(text,names );
-let resultAddress = findReg(text ,address );
-let resultDesigination = findReg(text ,designation );
-console.log(resultName);
-console.log(resultAddress);
-console.log(resultDesigination);
-let removeVal=[];
-  //finding matched element;
-  let removeId = function(resultName,resultAddress,resultDesigination)
-  { for(let i=0;i<emp.length;i++)
-    { 
-      for(let j=0;j<emp.length;j++)
-      {
-      if(emp[i].name==resultName[j]||emp[i].address==resultAddress[j]||emp[i].designation==resultDesigination[j])
-      {
-removeVal.push(emp[i].id)
-console.log("value of employee are equal"+emp[i].name+ ""+emp[i].id);
-      }
-      }
-    }
-  }  
-removeId (resultName,resultAddress,resultDesigination);
-
-
-//remove repeated values
-let unique = removeVal.filter(function(elem, index, self) {
-    return index == self.indexOf(elem);
-})
-console.log("removal id's are "+unique);
-
-
-//to find unique value
-for(let i=0;i<unique.length+1;i++)
-{
-  newEmp.push(emp[unique.pop()]);
-  console.log("new employeee name"+newEmp[i].name);
-}
-
-container = document.getElementById('container');
- container.innerHTML = " ";
- container = document.getElementById('container');
-
- container.appendChild(display(newEmp));
     
+//checking regEx value with the employee object and to push employee object which matches with regEx values
+for(let i=0;i<employee.length;i++)
+{
+if(employee[i].name.match(reg) ||employee[i].address.match(reg) ||employee[i].designation.match(reg) )
+{
+newemployee.unshift(employee[i]);
+}
+}
+this.container.appendChild(this.createEmp(newemployee));
+
+
 }
 
 
+ //to get element table and to remove the element from DOM
+deleteemployee()
+{
+    document.getElementById('table').remove();
+}
+
+
+}
+
+
+let t = new TypeSearch();
+//try catch block
+try{
+t.container.appendChild(t.createEmp(employee));
+}
+catch(e)
+{
+console.log(e.message);
+}
 
